@@ -3,12 +3,14 @@ pragma solidity =0.5.16;
 import './interfaces/IUniswapV2Factory.sol';
 import './UniswapV2Pair.sol';
 
+//主要作用是创建流动池
 contract UniswapV2Factory is IUniswapV2Factory {
-    address public feeTo;
-    address public feeToSetter;
+    address public feeTo;   //团队开发者地址(用于接受手续费)
+    address public feeToSetter;     //用于改变团队开发地址
 
+    //前两个地址分别对应交易对中的两种代币地址，最后一个地址是交易对合约本身地址
     mapping(address => mapping(address => address)) public getPair;
-    address[] public allPairs;
+    address[] public allPairs;      //存放所有交易对合约地址
 
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
