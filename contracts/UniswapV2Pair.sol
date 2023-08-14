@@ -142,6 +142,8 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
 
         //初次提供流动性
         if (_totalSupply == 0) {
+
+            //amount0✖️amount1然后再开平方根   减去最低流动数量
             liquidity = Math.sqrt(amount0.mul(amount1)).sub(MINIMUM_LIQUIDITY);
            _mint(address(0), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens
         } else {
@@ -168,7 +170,7 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
         uint _totalSupply = totalSupply; // gas savings, must be defined here since totalSupply can update in _mintFee
 
         //amount = liquidity / totalSupply * balance
-        //提取数量 = 用户流动性 / 总流动性 * 代币总余额   翻下顺序可以这样理解
+        //提取数量 / 代币总余额  = 用户流动性 / 总流动性    翻下顺序可以这样理解
         amount0 = liquidity.mul(balance0) / _totalSupply; // using balances ensures pro-rata distribution
         amount1 = liquidity.mul(balance1) / _totalSupply; // using balances ensures pro-rata distribution
         require(amount0 > 0 && amount1 > 0, 'UniswapV2: INSUFFICIENT_LIQUIDITY_BURNED');
